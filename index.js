@@ -13,13 +13,13 @@ app.use(express.static('build'))
 app.use(bodyParser.json())
 app.use(cors())
 
-morgan.token('body', function (req, res) { 
-  return JSON.stringify(req.body) 
-});
+morgan.token('body', function (req, res) {
+  return JSON.stringify(req.body)
+})
 
 app.use(morgan('tiny'))
 app.use(morgan(':body',
-  {skip: function (req, res) { return req.method !== "POST" }}
+  {skip: function (req, res) { return req.method !== 'POST' }}
 ))
 
 // Routes
@@ -62,7 +62,7 @@ app.post('/api/persons', (req, res, next) => {
     name: body.name,
     number: body.number
   })
-  
+
   newPerson.save()
     .then(savedPerson => {
       res.json(savedPerson.toJSON())
@@ -97,9 +97,9 @@ const errorHandler = (error, req, res, next) => {
 
   if (error.name === 'CastError' && error.kind == 'ObjectId') {
     return res.status(400).send({ error: 'Malformatted id' })
-  
+
   } else if (error.name === 'ValidationError') {
-    return res.status(400).json({ error: error.message, name: "ValidationError" })
+    return res.status(400).json({ error: error.message, name: 'ValidationError' })
   }
 
   next(error)
